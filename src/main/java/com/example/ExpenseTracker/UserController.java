@@ -28,7 +28,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
-    @GetMapping("/users/login")
+    @PostMapping("/users/login")
     public ResponseEntity<?> loginUser(@RequestBody ExpenseUserEntity user){
         String email = user.getEmail();
         String password = user.getPassword();
@@ -42,13 +42,6 @@ public class UserController {
 
         String token = jwtUtil.generateToken(email);
         return ResponseEntity.ok().body(Map.of("token",token));
-
-
-
-
-
-
-
     }
 
 
