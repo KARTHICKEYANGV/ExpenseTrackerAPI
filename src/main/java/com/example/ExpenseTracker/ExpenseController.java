@@ -20,7 +20,7 @@ public class ExpenseController {
                 SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        List<ExpenseEntity> expenses = expenseService.getAllExpenses();
+        List<ExpenseEntity> expenses = expenseService.getAllExpenses(email);
         return ResponseEntity.ok(expenses);
 
     }
@@ -31,9 +31,18 @@ public class ExpenseController {
                 SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        expense.setUserEmail(email);
-        ExpenseEntity createdExpense = expenseService.createExpense(expense);
+        ExpenseEntity createdExpense = expenseService.createExpenseForUser(email,expense);
         return ResponseEntity.ok(createdExpense);
+    }
+
+    @DeleteMapping("/delete/title")
+    public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        expenseService.deleteExpense(email,id);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -3,6 +3,8 @@ package com.example.ExpenseTracker;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Entity
 @Data
 public class ExpenseEntity {
@@ -14,7 +16,7 @@ public class ExpenseEntity {
 
     private double amount;
 
-    private String date;
+    private Date date;
 
     @Enumerated(EnumType.STRING)
     private Category category;
