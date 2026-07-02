@@ -3,6 +3,7 @@ package com.example.ExpenseTracker;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,7 +17,7 @@ public class ExpenseEntity {
 
     private double amount;
 
-    private Date date;
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     private Category category;

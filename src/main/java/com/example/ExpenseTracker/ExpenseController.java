@@ -3,6 +3,8 @@ package com.example.ExpenseTracker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,7 +37,7 @@ public class ExpenseController {
         return ResponseEntity.ok(createdExpense);
     }
 
-    @DeleteMapping("/delete/title")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteExpense(@PathVariable Long id) {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
@@ -44,6 +46,30 @@ public class ExpenseController {
         expenseService.deleteExpense(email,id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ExpenseEntity> updateExpense(@PathVariable Long id, @RequestBody ExpenseEntity expense) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        ExpenseEntity updatedExpense = expenseService.updateExpense(email, id, expense);
+        return ResponseEntity.ok(updatedExpense);
+
+    }
+
+    @GetMapping("/filterByDate")
+    public ResponseEntity<List<ExpenseEntity>> getAllExpensesDate(@RequestParam LocalDate startDate) {
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        List<ExpenseEntity> expenses = expenseService.getDateFilteredExpenses(email, startDate);
+        return ResponseEntity.ok(expenses);
+
+    }
+
+
 
 
 
